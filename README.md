@@ -5,29 +5,30 @@ A [Claude Code skill](https://skills.sh) that turns Claude into a **self-improvi
 This is a **meta skill**: it doesn't solve a specific problem. It gives Claude a structured way to *keep trying* at *any* problem — debugging, optimisation, prompt tuning, data exploration, algorithm search — without losing context between attempts.
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    hypothesis-loop                      │
-│                                                         │
-│   condition: "all tests pass"   max loops: 8            │
-│                                                         │
-│  ┌──────────┐                                           │
-│  │  State   │◄──────────────────────────────┐          │
-│  │ session  │                               │          │
-│  │  .md     │                               │          │
-│  └────┬─────┘                               │          │
-│       │ read learnings & discards           │          │
-│       ▼                                     │          │
-│  ┌──────────┐    ┌──────────┐    ┌────────┐ │          │
-│  │ Generate │───►│ Execute  │───►│Evaluate│ │          │
-│  │hypothesis│    │loop task │    │        │ │          │
-│  └──────────┘    └──────────┘    └───┬────┘ │          │
-│                                      │      │          │
-│                              met?    │      │          │
-│                           ┌──yes──►DONE     │          │
-│                           │  no            │          │
-│                           └───────────────►┘          │
-│                                  evolve & loop         │
-└─────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                      hypothesis-loop                         │
+│                                                              │
+│   condition: "all tests pass"        max loops: 8            │
+│                                                              │
+│   ┌───────────┐                                              │
+│   │   State   │◄─────────────────────────────────┐          │
+│   │ session   │                                  │          │
+│   │   .md     │                                  │          │
+│   └─────┬─────┘                                  │          │
+│         │ read learnings & discards              │          │
+│         ▼                                        │          │
+│   ┌──────────┐    ┌──────────┐    ┌──────────┐   │          │
+│   │ Generate │───►│ Execute  │───►│ Evaluate │   │          │
+│   │hypothesis│    │loop task │    │          │   │          │
+│   └──────────┘    └──────────┘    └────┬─────┘   │          │
+│                                        │         │          │
+│                                 met? ──┤         │          │
+│                                   yes ▼          │          │
+│                                  DONE            │          │
+│                                    no ▼          │          │
+│                                        └─────────┘          │
+│                                       evolve & loop         │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 State is persisted to `.hypothesis-loop/` so learnings survive context resets. The session index stays lean — full loop detail lives in per-loop files loaded on demand.
